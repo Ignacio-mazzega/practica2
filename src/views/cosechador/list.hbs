@@ -1,0 +1,51 @@
+<div class="container p-4">
+    <div class="row">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">CUIL</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Nacionalidad</th>
+                    <th scope="col">Fecha de Nacimiento</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {{#each cosechadores}}
+                <div class="row">
+                    <tr>
+                        <h6 class="text-uppercase">
+                            <td>{{cuil}}</td>
+                            <td>{{nombre}}</td>
+                            <td>{{apellido}}</td>
+                            <td>{{nacionalidad}}</td>
+                            <td>{{timeago fecha_nacimiento}}</td>
+                            <td>{{dni}}</td>
+                            <td>{{telefono}}</td>
+
+                            <td><a class="btn btn-success" href="/cosechador/edit/{{id_cosechador}}">Editar</a>
+                                <a class="btn btn-danger" href="/cosechador/delete/{{id_cosechador}}">Eliminar</a>
+                                <a class="btn btn-primary" href="/cosechador/pago">Pagar fichas</a>
+                            </td>
+
+                        </h6>
+                    </tr>
+                </div>
+                {{else}}
+                <div class="col-md-4 mx-auto">
+                    <a type="button" class="btn btn-secondary" href="/cosechador/add">
+                        No hay ningún cosechador, agrega uno <span class="badge bg-secondary"></span>
+                    </a>
+                </div>
+                {{/each}}
+
+            </tbody>
+        </table>
+        <a type="button" class="btn btn-primary" href="/cosechador/add">Añadir Cosechador</a>
+    </div>
+</div>
