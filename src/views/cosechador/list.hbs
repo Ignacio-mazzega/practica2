@@ -11,6 +11,7 @@
                     <th scope="col">Fecha de Nacimiento</th>
                     <th scope="col">DNI</th>
                     <th scope="col">Teléfono</th>
+                    <th scope="col">Mail</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -27,6 +28,7 @@
                             <td>{{timeago fecha_nacimiento}}</td>
                             <td>{{dni}}</td>
                             <td>{{telefono}}</td>
+                            <td>{{mail}}</td>
 
                             <td><a class="btn btn-success" href="/cosechador/edit/{{id_cosechador}}">Editar</a>
                                 <a class="btn btn-danger" href="/cosechador/delete/{{id_cosechador}}">Eliminar</a>

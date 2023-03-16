@@ -2,45 +2,63 @@ const express = require('express');
 const router = express.Router();
 
 const passport = require('passport');
-const { isLoggedIn } = require('../lib/auth');
+const { isLoggedIn, isNotLoggedIn } = require('../lib/auth');
 
-router.get('/signup', (req, res) => {
+router.get('/signup', isNotLoggedIn, (req, res) => {
     res.render('auth/signup');
 });
 
-router.post('/signup', passport.authenticate('local.signup', {
+/*
+router.post('/signup', (req, res) => {
+
+    passport.authenticate('local.signup', {
+        successRedirect: '/profile',
+        failureRedirect: '/signup',
+        failureFlash: true
+    });
+    res.send('Received');
+});
+*/
+
+router.post('/signup', isNotLoggedIn, passport.authenticate('local.signup', {
     successRedirect: '/profile',
     failureRedirect: '/signup',
     failureFlash: true
-  }));
+}));
 
-// SINGIN
-router.get('/signin', (req, res) => {
-  res.render('auth/signin');
+
+router.get('/signin', isNotLoggedIn, (req, res) => {
+    res.render('auth/signin');
 });
 
-router.post('/signin', (req, res, next) => {
-  req.check('username', 'Username is Required').notEmpty();
-  req.check('password', 'Password is Required').notEmpty();
-  const errors = req.validationErrors();
-  if (errors.length > 0) {
-    req.flash('message', errors[0].msg);
-    res.redirect('/signin');
-  }
-  passport.authenticate('local.signin', {
-    successRedirect: '/profile',
-    failureRedirect: '/signin',
-    failureFlash: true
-  })(req, res, next);
+router.post('/signin', isNotLoggedIn, (req, res, next) => {
+
+    passport.authenticate('local.signin', {
+        successRedirect: '/profile',
+        failureRedirect: '/signin',
+        failureFlash: true
+    })(req, res, next);
 });
 
-router.get('/logout', (req, res) => {
-  req.logOut();
-  res.redirect('/');
-});
+
+
 
 router.get('/profile', isLoggedIn, (req, res) => {
-  res.render('profile');
+    res.render('profile');
 });
+
+router.get('/logout', isLoggedIn, (req, res) => {
+    req.logOut();
+    res.redirect('/signin');
+});
+
+router.get('/info', isNotLoggedIn, (req, res) => {
+    res.render('links/info');
+});
+
+router.post('/info', isNotLoggedIn, (req, res) => {
+    res.redirect('/info');
+});
+
 
 module.exports = router;

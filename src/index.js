@@ -4,7 +4,7 @@ const hbs = require('express-handlebars');
 const path = require('path');
 const flash = require('connect-flash');
 const session = require('express-session');
-const MySQLStore = require('express-mysql-session');
+const MySQLStore = require('express-mysql-session')(session);
 const passport = require('passport');
 const bodyParser = require('body-parser');
 
@@ -12,7 +12,7 @@ const { database } = require('./keys');
 
 //Initializations
 const app = express();
-
+require('./lib/passport');
 //Settings
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -26,16 +26,16 @@ app.engine('.hbs', hbs({                           //Utilice el método app.engi
 app.set('view engine', '.hbs');
 
 //Middlewares
-app.use(morgan('dev'));
-app.use(express.urlencoded({extended: false}));
-app.use(express.json());
-app.use(flash());
 app.use(session({
     secret: 'proyectocosecha',
     resave: false,
     saveUninitialized: false,
-    store: MySQLStore(database),
+    store: new MySQLStore(database)
 }));
+app.use(morgan('dev'));
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, 'public'))); 
 
 //Routes
-app.use(require('./routes/'));
+app.use(require('./routes/index.js'));
 app.use(require('./routes/authentication'));
 app.use('/cosechador', require('./routes/cosechador'));
 app.use('/camion', require('./routes/camion'));

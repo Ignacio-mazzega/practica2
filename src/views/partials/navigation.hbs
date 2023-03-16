@@ -1,12 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container">
-    <a class="navbar-brand display-6" href="/cosechador">COSECHA</a>
+    <a class="navbar-brand display-6" href="/">COSECHA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
+        {{#if user}}
+          <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/vales">Vales</a>
         </li>
         <li class="nav-item">
@@ -25,8 +26,18 @@
               <a class="nav-link active" aria-current="page" href="/uva">Uva</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/signin">SALIR</a>
+              <a class="nav-link active" aria-current="page" href="/logout">SALIR</a>
             </li>
+            {{else}}
+
+              <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/signin">Ingresar</a>
+              </li>
+              <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/signup">Registrarse</a>
+              </li>
+        {{/if}}
+        
       </ul>
     </div>
   </div>
